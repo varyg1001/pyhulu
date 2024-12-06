@@ -105,7 +105,10 @@ class HuluClient(object):
 
             raise ValueError('Error decrypting response')
 
-        return json.loads(plaintext.decode('utf8'))
+        try:
+            return json.loads(plaintext.decode('utf8'))
+        except UnicodeDecodeError:
+            return json.loads(plaintext.decode('utf8', errors='ignore'))
 
     def get_session_key(self):
         """
